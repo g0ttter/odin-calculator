@@ -54,15 +54,17 @@ function createButtons() {
         createButton.className = buttonsInfo[i-10].button;
         createButton.style.backgroundColor = '#00308F';
         createButton.addEventListener("click", function () 
-        {operationInput(buttonsInfo[i-10].button)});
+            {operationInput(buttonsInfo[i-10].button)});
         } 
         mainWindow.append(createButton);
     }
 };
 
- createButtons();
+createButtons();
 
 function digitInput(number) {
+    if(display.textContent.length > 20) 
+        alert("over20flow ._.");
      display.textContent += `${number}`;
 }
 
@@ -86,18 +88,18 @@ function operationInput(operation) {
     display.textContent = '';
 }
 
-
 function calculateResult() {
     if (awaitedOperation === 'plus')
         display.textContent = tempNumber + parseFloat(display.textContent, 10); 
     if (awaitedOperation === 'multiply')
         display.textContent = tempNumber * parseFloat(display.textContent, 10);
     if (awaitedOperation === 'divide')
-        display.textContent = tempNumber / parseFloat(display.textContent, 10);
+        display.textContent = (tempNumber / parseFloat(display.textContent, 10)).toFixed(2);;
     if (awaitedOperation === 'minus')
         display.textContent = tempNumber - parseFloat(display.textContent, 10);
     if (awaitedOperation === 'power')
         display.textContent = Math.pow(tempNumber, parseFloat(display.textContent, 10));
+    if(display.textContent.length > 20) 
+        alert("over20flow ._.");
     awaitedOperation = 0;
 }
-
