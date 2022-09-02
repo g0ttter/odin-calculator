@@ -2,16 +2,16 @@ const mainWindow = document.querySelector('.main-window');
 const display = document.querySelector('.display');
 const buttonsInfo = [
     {
-    button: "delete",
-    displayed: "C",
+    button: "dot",
+    displayed: ".",
     },
     {
     button: "erase",
     displayed: "←",    
     },
     {
-    button: "power",
-    displayed: "^x",    
+    button: "delete",
+    displayed: "C",    
     },
     {
     button: "divide",
@@ -23,15 +23,15 @@ const buttonsInfo = [
      },
     {
     button: "minus",
-    displayed: "-",    
+    displayed: "−",    
     },
     {
     button: "plus",
     displayed: "+",    
     },
     {
-    button: "dot",
-    displayed: ".",
+    button: "power",
+    displayed: "^x",
     },
     {
     button: "equals",
@@ -39,7 +39,7 @@ const buttonsInfo = [
     }
 ];
 
-let tempNumber;
+let tempNumber = 0;
 let awaitedOperation;
 
 function createButtons() {
@@ -52,8 +52,9 @@ function createButtons() {
         } else if (i > 9) {
         createButton.textContent = buttonsInfo[i-10].displayed;
         createButton.className = buttonsInfo[i-10].button;
+        createButton.style.backgroundColor = '#00308F';
         createButton.addEventListener("click", function () 
-        {saveCurrentNumber(buttonsInfo[i-10].button)});
+        {operationInput(buttonsInfo[i-10].button)});
         } 
         mainWindow.append(createButton);
     }
@@ -64,29 +65,39 @@ function createButtons() {
 function digitInput(number) {
      display.textContent += `${number}`;
 }
-function saveCurrentNumber(operation) {
+
+function operationInput(operation) {
+    if (operation == 'dot') {
+        display.textContent += '.';
+        return;
+    }   
     if (operation == 'equals') {
         calculateResult();
         return;
+    }   
+    if (operation === 'erase') {
+        display.textContent = display.textContent.slice(0, -1);
+        return;
     }
-    tempNumber = parseInt(display.textContent, 10);
-    display.textContent = '';
+    calculateResult();
+    tempNumber = parseFloat(display.textContent, 10);
     awaitedOperation = operation;
+    console.log(tempNumber);
+    display.textContent = '';
 }
 
 
 function calculateResult() {
-    if (awaitedOperation === 'plus') {
-        display.textContent = tempNumber + parseInt(display.textContent, 10); 
-    }
-    console.log(tempNumber + ' test ' + awaitedOperation);
+    if (awaitedOperation === 'plus')
+        display.textContent = tempNumber + parseFloat(display.textContent, 10); 
+    if (awaitedOperation === 'multiply')
+        display.textContent = tempNumber * parseFloat(display.textContent, 10);
+    if (awaitedOperation === 'divide')
+        display.textContent = tempNumber / parseFloat(display.textContent, 10);
+    if (awaitedOperation === 'minus')
+        display.textContent = tempNumber - parseFloat(display.textContent, 10);
+    if (awaitedOperation === 'power')
+        display.textContent = Math.pow(tempNumber, parseFloat(display.textContent, 10));
+    awaitedOperation = 0;
 }
 
-// function operationInput(operation) {
-//     saveCurrentNumber();
-//     if (operation === 'plus') 
-//         saveCurrentNumber('plus');
-//     if (operation === 'equals')
-//         calculateResult();
-//     return
-// }
