@@ -93,9 +93,12 @@ function calculateResult() {
         display.textContent = tempNumber + parseFloat(display.textContent, 10); 
     if (awaitedOperation === 'multiply')
         display.textContent = tempNumber * parseFloat(display.textContent, 10);
-    if (awaitedOperation === 'divide')
-        display.textContent = (tempNumber / parseFloat(display.textContent, 10)).toFixed(2);;
-    if (awaitedOperation === 'minus')
+    if (awaitedOperation === 'divide') {
+        if (parseFloat(display.textContent, 10) === 0)
+            return alert("it's infinity but I'm not allowed to say it");
+        display.textContent = Math.round(((tempNumber / parseFloat(display.textContent, 10)) + Number.EPSILON) * 100) / 100;
+    }
+        if (awaitedOperation === 'minus')
         display.textContent = tempNumber - parseFloat(display.textContent, 10);
     if (awaitedOperation === 'power')
         display.textContent = Math.pow(tempNumber, parseFloat(display.textContent, 10));
