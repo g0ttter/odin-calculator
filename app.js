@@ -1,5 +1,4 @@
 
-
 const mainWindow = document.querySelector('.main-window');
 const display = document.querySelector('.display');
 const buttonsInfo = [
@@ -82,6 +81,8 @@ function operationInput(operation) {
     if (operation === 'dot') {
         if(display.textContent.includes('.'))
             return;
+        if(display.textContent == '')
+            display.textContent += 0;
         display.textContent += '.';
         return;
     }   
@@ -117,13 +118,3 @@ function calculateResult() {
         alert("over20flow ._.");
     awaitedOperation = 0;
 }
-
-const root = document.documentElement;
- 
-document.addEventListener('mousemove', evt => {
-    let x = evt.clientX / innerWidth;
-    let y = evt.clientY / innerHeight;
- 
-    root.style.setProperty('--mouse-x', x);
-    root.style.setProperty('--mouse-y', y);
-});
