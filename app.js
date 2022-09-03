@@ -10,7 +10,7 @@ const buttonsInfo = [
     displayed: "←",    
     },
     {
-    button: "delete",
+    button: "clear",
     displayed: "C",    
     },
     {
@@ -69,6 +69,8 @@ function digitInput(number) {
 }
 
 function operationInput(operation) {
+    if (operation === awaitedOperation)
+        return;
     if (operation == 'dot') {
         display.textContent += '.';
         return;
@@ -84,11 +86,14 @@ function operationInput(operation) {
     calculateResult();
     tempNumber = parseFloat(display.textContent, 10);
     awaitedOperation = operation;
-    console.log(tempNumber);
     display.textContent = '';
 }
 
 function calculateResult() {
+    if (awaitedOperation === 'clear'){
+        display.textContent = '';
+        tempNumber = 0;
+    }
     if (awaitedOperation === 'plus')
         display.textContent = tempNumber + parseFloat(display.textContent, 10); 
     if (awaitedOperation === 'multiply')
