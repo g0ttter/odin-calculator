@@ -1,3 +1,5 @@
+
+
 const mainWindow = document.querySelector('.main-window');
 const display = document.querySelector('.display');
 const buttonsInfo = [
@@ -40,7 +42,7 @@ const buttonsInfo = [
 ];
 
 let tempNumber = 0;
-let awaitedOperation;
+let awaitedOperation = 0;
 
 function createButtons() {
     for(let i = 0; i < 19; i++){ 
@@ -69,13 +71,21 @@ function digitInput(number) {
 }
 
 function operationInput(operation) {
+    if (operation === 'clear'){
+            console.log('clear');
+            display.textContent = '';
+            tempNumber = 0;
+            return;
+    }
     if (operation === awaitedOperation)
         return;
-    if (operation == 'dot') {
+    if (operation === 'dot') {
+        if(display.textContent.includes('.'))
+            return;
         display.textContent += '.';
         return;
     }   
-    if (operation == 'equals') {
+    if (operation === 'equals') {
         calculateResult();
         return;
     }   
@@ -90,10 +100,6 @@ function operationInput(operation) {
 }
 
 function calculateResult() {
-    if (awaitedOperation === 'clear'){
-        display.textContent = '';
-        tempNumber = 0;
-    }
     if (awaitedOperation === 'plus')
         display.textContent = tempNumber + parseFloat(display.textContent, 10); 
     if (awaitedOperation === 'multiply')
@@ -111,3 +117,13 @@ function calculateResult() {
         alert("over20flow ._.");
     awaitedOperation = 0;
 }
+
+const root = document.documentElement;
+ 
+document.addEventListener('mousemove', evt => {
+    let x = evt.clientX / innerWidth;
+    let y = evt.clientY / innerHeight;
+ 
+    root.style.setProperty('--mouse-x', x);
+    root.style.setProperty('--mouse-y', y);
+});
